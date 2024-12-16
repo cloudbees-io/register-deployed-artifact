@@ -1,2 +1,62 @@
-# register-deployed-artifact
-The action is used to inform CloudBees Platform of a deployed artifact version
+= CloudBees action: Inform CloudBees Platform that an artifact version was deployed
+
+Use this action to inform CloudBees Platform that an artifact version was deployed
+
+== Inputs
+
+[cols="2a,1a,1a,3a",options="header"]
+.Input details
+|===
+
+| Input name
+| Data type
+| Required?
+| Description
+
+| `name`
+| String
+| Yes
+| The name of the artifact.
+
+| `version`
+| String
+| Yes
+| The version of the artifact.
+
+| `url`
+| String
+| Yes
+| The url where the artifact version is located e.g. docker.io/myapp/myimg:1.0.0.
+
+| `digest`
+| String
+| No
+| The artifact digest that uniquely and immutably identifies the artifact.
+
+|===
+
+== Usage example
+
+In your YAML file, add:
+
+[source,yaml]
+----
+      - name: Inform system that an artifact version was deployed
+        uses: cloudbees-io/register-deployed-artifact@v1
+        with:
+          name: "myApp"
+          version: "1.0.0"
+          url: "docker.io/myapp/myimg:1.0.0"
+          digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3609"
+
+----
+
+== License
+
+This code is made available under the 
+link:https://opensource.org/license/mit/[MIT license].
+
+== References
+
+* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform-actions/latest/[using actions in CloudBees workflows].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform/latest/[the CloudBees platform].
