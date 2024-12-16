@@ -1,6 +1,6 @@
-= CloudBees action: Inform CloudBees Platform that an artifact version was deployed
+= CloudBees action: Inform CloudBees Platform that an artifact version was deployed in a particular environment
 
-Use this action to inform CloudBees Platform that an artifact version was deployed
+Use this action to inform CloudBees Platform that an artifact version was deployed in a particular environment
 
 == Inputs
 
@@ -53,7 +53,7 @@ In your YAML file, add:
 
 == License
 
-This code is made available under the
+This code is made available under the 
 link:https://opensource.org/license/mit/[MIT license].
 
 == References
