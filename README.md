@@ -41,8 +41,8 @@ In your YAML file, add:
 
 [source,yaml]
 ----
-      - name: Inform system that an artifact version was deployed
-        uses: cloudbees-io/register-deployed-artifact@v1
+      - name: Inform system that an artifact version was created
+        uses: cloudbees-io/register-build-artifact@v1
         with:
           name: "myApp"
           version: "1.0.0"
@@ -53,7 +53,7 @@ In your YAML file, add:
 
 == License
 
-This code is made available under the 
+This code is made available under the
 link:https://opensource.org/license/mit/[MIT license].
 
 == References
