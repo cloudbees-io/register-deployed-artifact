@@ -7,8 +7,7 @@ on:
       - "**"
   workflow_dispatch:
 jobs:
-  invalid_env_deploy:
-    environment: invalid_env
+  missing_env_deploy:
     steps:
       - name: Inform system that an artifact version was deployed
         uses: cloudbees-io/register-deployed-artifact@v1
