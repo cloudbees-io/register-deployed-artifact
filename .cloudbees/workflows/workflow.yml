@@ -25,7 +25,7 @@ jobs:
         uses: docker://golang:1.20.3-alpine3.17
         if: always()
         run: |
-        echo "Custom action outputs: ${{ toJson(steps.error_missing_env) }}"
+        echo "Custom action outputs: ${{ steps.error_missing_env }}"
 
   success_valid_env_reg_artifact:
     environment: Test_env # environment must be specified on the job
