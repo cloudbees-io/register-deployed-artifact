@@ -11,8 +11,8 @@ jobs:
   # causing the workflow to stop processing further and control does not reach the action. Hence, not added.
   error_missing_env_reg_artifact:
     steps:
-      - name: error_missing_env_reg_artifact
-        id: error_missing_env_reg_artifact
+      - name: Register deployed artifact with missing environment
+        id: error_missing_env
         uses: cloudbees-io/register-deployed-artifact@v1
         continue-on-error: true
         with:
@@ -23,9 +23,15 @@ jobs:
       
       - name: verify_previous_step_failed
         uses: docker://golang:1.20.3-alpine3.17
-        if: ${{ steps.error_missing_env_reg_artifact.outcome == 'failure' }} 
+        if: ${{ steps.error_missing_env.outcome == 'failure' }} 
         run: |
            echo "missing environment step failed"
+
+      - name: verify_previous_step_failed
+        uses: docker://golang:1.20.3-alpine3.17
+        if: ${{ steps.error_missing_env.outcome == 'failure' }} 
+        run: |
+           echo "Outcome:  " ${{ steps.error_missing_env.outcome }}
   
   success_valid_env_reg_artifact:
     environment: Test_env # environment must be specified on the job
