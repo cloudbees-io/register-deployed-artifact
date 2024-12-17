@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    environment: Test_env
+    #environment: Test_env
     steps:
       - name: Inform system that an artifact version was deployed
         uses: cloudbees-io/register-deployed-artifact@v1
