@@ -11,21 +11,35 @@ jobs:
     steps:
       - name: Inform system that an artifact version was deployed
         uses: cloudbees-io/register-deployed-artifact@v1
-        continue-on-error: true
         with:
           name: "testDeploymentRegister"
           version: "13.0.0"
           url: "docker.io/myapp/mytestimg:13.0.0"
           digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3611"
-  success_deploy:
+  valid_env_deploy:
     needs: missing_env_deploy
     environment: Test_env
     steps:
-      - name: Inform system that an artifact version was deployed
+      - name: success_deploy
         uses: cloudbees-io/register-deployed-artifact@v1
+        continue-on-error: true
         with:
-          name: "testDeploymentRegister"
+          name: "testDeploymentRegister1"
           version: "13.0.0"
+          url: "docker.io/myapp/mytestimg:13.0.0"
+          digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3622"
+      - name: missing_name
+        uses: cloudbees-io/register-deployed-artifact@v1
+        continue-on-error: true
+        with:
+          version: "13.0.0"
+          url: "docker.io/myapp/mytestimg:13.0.0"
+          digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3622"
+      - name: missing_version
+        uses: cloudbees-io/register-deployed-artifact@v1
+        continue-on-error: true
+        with:
+          name: "testDeploymentRegister2"
           url: "docker.io/myapp/mytestimg:13.0.0"
           digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3622"
   
