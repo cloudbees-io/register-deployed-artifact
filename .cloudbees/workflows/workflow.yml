@@ -7,8 +7,19 @@ on:
       - "**"
   workflow_dispatch:
 jobs:
-  build:
+  invalid_env_deploy:
     environment: invalid_env
+    steps:
+      - name: Inform system that an artifact version was deployed
+        uses: cloudbees-io/register-deployed-artifact@v1
+        continue-on-error: true
+        with:
+          name: "testDeploymentRegister"
+          version: "13.0.0"
+          url: "docker.io/myapp/mytestimg:13.0.0"
+          digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3611"
+  success_deploy:
+    environment: Test_env
     steps:
       - name: Inform system that an artifact version was deployed
         uses: cloudbees-io/register-deployed-artifact@v1
@@ -16,4 +27,5 @@ jobs:
           name: "testDeploymentRegister"
           version: "13.0.0"
           url: "docker.io/myapp/mytestimg:13.0.0"
-          digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3677"
+          digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3622"
+  
