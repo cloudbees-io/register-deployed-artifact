@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 jobs:
   # Error is thrown by dsl-engine in scenarios like "Invalid environment", "no name". "no version", 
-  # causing the workflow to fail and control does not reach the action. Hence, not added.
+  # causing the workflow to stop processing further and control does not reach the action. Hence, not added.
   error_missing_env_reg_artifact:
     steps:
       - name: error_missing_env_reg_artifact

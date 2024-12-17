@@ -1,6 +1,6 @@
-= CloudBees action: Inform CloudBees Platform that an artifact version was deployed in a particular environment
+= CloudBees action: Inform CloudBees Platform that an artifact version was deployed in an environment
 
-Use this action to inform CloudBees Platform that an artifact version was deployed in a particular environment
+Use this action to inform CloudBees Platform that an artifact version was deployed in an environment
 
 == Inputs
 
