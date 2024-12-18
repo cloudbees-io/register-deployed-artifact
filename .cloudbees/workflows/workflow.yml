@@ -7,9 +7,6 @@ on:
       - "**"
   workflow_dispatch:
 jobs:
-  # NOTE: environment MUST be specified on the job. The action will 
-  # add the artifact version to the referenced environment's inventory.
-  
   success_valid_env_reg_artifact:
     environment: Test_env
     steps:
