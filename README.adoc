@@ -42,12 +42,11 @@ In your YAML file, add:
 [source,yaml]
 ----
   jobs:
-    success_valid_env_reg_artifact:
-      environment: Test_env
+    register_artifact_to_env:
+      environment: test_env
       steps:
-        - name: success_valid_env_reg_artifact
+        - name: Register deployed artifact version to environment
           uses: cloudbees-io/register-deployed-artifact@v1
-          continue-on-error: true
           with:
             name: "testRegisterArtifact"
             version: "1.0.0"
