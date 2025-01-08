@@ -45,11 +45,11 @@ In your YAML file, add:
 
 [source,yaml]
 ----
-  jobs:
+ jobs:
     register_artifact_version_to_env:
       environment: test_env
       steps:
-          Register_deployed_artifact:
+        - name: Register_deployed_artifact
           uses: cloudbees-io/register-deployed-artifact@v1
           with:
             name: "testRegisterArtifact"
