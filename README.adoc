@@ -1,8 +1,13 @@
-= CloudBees action: Inform CloudBees Platform that an artifact version was deployed in an environment
 
-Use this action to inform CloudBees Platform that an artifact version was deployed in an environment
+= CloudBees action: Register an artifact deployed to an environment
+
+Use this action to report environment artifact related data to the workflow run for artifact traceability purposes.
+
+include::ROOT:partial$github-link.adoc[]
 
 == Inputs
+
+IMPORTANT: An `environment` input value for the job must be included for this action to work.
 
 [cols="2a,1a,1a,3a",options="header"]
 .Input details
@@ -16,12 +21,12 @@ Use this action to inform CloudBees Platform that an artifact version was deploy
 | `name`
 | String
 | Yes
-| The name of the artifact.
+| The name of the artifact to send to the Cloudbees Platform for artifact traceability purposes.
 
 | `version`
 | String
 | Yes
-| The version of the artifact.
+| The version of the artifact to send to the Cloudbees Platform for artifact traceability purposes.
 
 | `url`
 | String
@@ -31,7 +36,7 @@ Use this action to inform CloudBees Platform that an artifact version was deploy
 | `digest`
 | String
 | No
-| The artifact digest that uniquely and immutably identifies the artifact.
+|The artifact digest that uniquely identifies the artifact.
 
 |===
 
@@ -45,16 +50,15 @@ In your YAML file, add:
     register_artifact_version_to_env:
       environment: test_env
       steps:
-        - name: Register deployed artifact version to environment
+          Register_deployed_artifact:
           uses: cloudbees-io/register-deployed-artifact@v1
           with:
             name: "testRegisterArtifact"
             version: "1.0.0"
             url: "docker.io/myapp/mytestimg:1.0.0"
-            digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3633"
-----
+            digest: ""
 
-NOTE: "environment" MUST be specified for the job. The action will then add the deployed artifact version to the referenced environment's inventory. The action will fail if "environment" is not specified.
+----
 
 == License
 
