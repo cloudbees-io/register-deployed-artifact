@@ -3,7 +3,6 @@
 
 Use this action to report environment artifact related data to the workflow run for artifact traceability purposes.
 
-include::ROOT:partial$github-link.adoc[]
 
 == Inputs
 
