@@ -31,6 +31,19 @@ runs:
         echo '"operation": "'"DEPLOYED"'", "digest": "'"$INPUT_DIGEST"'", ' >> /tmp/payload.json
         echo '"target-environment": "'"$INPUT_TARGET_ENV"'" }' >> /tmp/payload.json
 
+        echo PAYLOAD:
+        cat /tmp/payload.json
+        echo END PAYLOAD
+        echo JWT="'"$JWT"'"
+        echo URL="'"$URL"'"
+        echo INPUT_NAME="'"$INPUT_NAME"'"
+        echo INPUT_VERSION="'"$INPUT_VERSION"'"
+        echo INPUT_URL="'"$INPUT_URL"'"
+        echo INPUT_DIGEST="'"$INPUT_DIGEST"'"
+        echo INPUT_TARGET_ENV="'"$INPUT_TARGET_ENV"'"
+        echo CLOUDBEES_RUN_ID="'"$CLOUDBEES_RUN_ID"'"
+        echo CLOUDBEES_RUN_ATTEMPT="'"$CLOUDBEES_RUN_ATTEMPT"'"
+        
         # Make Platform API call to create artifact_info record
         response=$(curl --fail-with-body  -X 'POST' "$URL/v2/workflows/runs/artifactinfos" \
           -H "Authorization: Bearer $JWT" -H 'Content-Type: application/json' \
