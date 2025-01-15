@@ -37,6 +37,11 @@ IMPORTANT: An `environment` input value for the job must be included for this ac
 | No
 |The artifact digest that uniquely identifies the artifact.
 
+|`target-environment`
+| String
+| No
+|If supplied overrides any environment set at the job level.
+
 |===
 
 == Usage example
@@ -56,6 +61,7 @@ In your YAML file, add:
             version: "1.0.0"
             url: "docker.io/myapp/mytestimg:1.0.0"
             digest: ""
+            target-environment: ""
 
 ----
 
