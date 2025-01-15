@@ -28,7 +28,8 @@ runs:
         #Create payload
         echo '{ "runId": "'"$CLOUDBEES_RUN_ID"'", "runAttempt": "'"$CLOUDBEES_RUN_ATTEMPT"'",' > /tmp/payload.json 
         echo '"name": "'"$INPUT_NAME"'", "url": "'"$INPUT_URL"'", "version": "'"$INPUT_VERSION"'", ' >> /tmp/payload.json
-        echo '"operation": "'"DEPLOYED"'", "digest": "'"$INPUT_DIGEST"'" }' >> /tmp/payload.json
+        echo '"operation": "'"DEPLOYED"'", "digest": "'"$INPUT_DIGEST"'", ' >> /tmp/payload.json
+        echo '"target-environment": "'"$INPUT_TARGET_ENV"'" }' >> /tmp/payload.json
 
         # Make Platform API call to create artifact_info record
         response=$(curl --fail-with-body  -X 'POST' "$URL/v2/workflows/runs/artifactinfos" \
