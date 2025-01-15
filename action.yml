@@ -15,7 +15,10 @@ inputs:
     required: true
   digest:
     description: 'The artifact digest that uniquely and immutably identifies the artifact.'
-    default: false
+    default: ""
+  target-environment:
+    description: 'If supplied overrides any environment set at the job level.'
+    default: ""
 
 runs:
   using: composite
@@ -47,6 +50,7 @@ runs:
         INPUT_VERSION: ${{ inputs.version }}
         INPUT_URL: ${{ inputs.url }}
         INPUT_DIGEST: ${{ inputs.digest }}
+        INPUT_TARGET_ENV: ${{ inputs.target-environment }}
         CLOUDBEES_RUN_ID: ${{ cloudbees.run_id }}
         CLOUDBEES_RUN_ATTEMPT: ${{ cloudbees.run_attempt }}
 
