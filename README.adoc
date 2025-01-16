@@ -6,7 +6,7 @@ Use this action to report environment artifact related data to the workflow run 
 
 == Inputs
 
-IMPORTANT: An `environment` input value for the job must be included for this action to work.
+IMPORTANT:  An `environment` or `target-environment` input value is required for action to work.
 
 [cols="2a,1a,1a,3a",options="header"]
 .Input details
