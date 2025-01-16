@@ -40,7 +40,7 @@ IMPORTANT:  An `environment` or `target-environment` input value is required for
 |`target-environment`
 | String
 | No
-|If supplied overrides any environment set at the job level.
+| The environment where the deployment occurred.  A `target-environment` value overrides the job `environment` value.
 
 |===
 
