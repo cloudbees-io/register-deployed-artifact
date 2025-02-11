@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 jobs:
   success_valid_env_reg_artifact:
-   # environment: Test_env
+    environment: Test_env
     steps:
       - name: success_valid_env_reg_artifact
         uses: cloudbees-io/register-deployed-artifact@v1
