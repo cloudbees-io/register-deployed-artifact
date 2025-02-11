@@ -16,7 +16,7 @@ inputs:
   digest:
     description: 'The artifact digest that uniquely and immutably identifies the artifact.'
   target-environment:
-    description: 'If supplied overrides any environment set at the job level.'
+    description: 'The environment where the deployment occurred.'
     required: true
 
 runs:
