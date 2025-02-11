@@ -8,7 +8,6 @@ on:
   workflow_dispatch:
 jobs:
   success_valid_env_reg_artifact:
-    environment: Test_env
     steps:
       - name: success_valid_env_reg_artifact
         uses: cloudbees-io/register-deployed-artifact@v1
@@ -19,6 +18,7 @@ jobs:
           url: "docker.io/myapp/mytestimg:3.0.0"
           digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3633"
           target-environment: "Test_env"
+
 
   # Error is thrown by dsl-engine in scenarios like "Invalid environment", 
   # "no name". "no version", causing the workflow to stop processing further and

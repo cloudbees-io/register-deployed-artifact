@@ -6,8 +6,6 @@ Use this action to report environment artifact related data to the workflow run 
 
 == Inputs
 
-IMPORTANT:  An `environment` or `target-environment` input value is required for action to work.
-
 [cols="2a,1a,1a,3a",options="header"]
 .Input details
 |===
@@ -39,7 +37,7 @@ IMPORTANT:  An `environment` or `target-environment` input value is required for
 
 |`target-environment`
 | String
-| No
+| Yes
 | The environment where the deployment occurred.  A `target-environment` value overrides the job `environment` value.
 
 |===
@@ -52,7 +50,6 @@ In your YAML file, add:
 ----
  jobs:
     register_artifact_version_to_env:
-      environment: test_env
       steps:
         - name: Register_deployed_artifact
           uses: cloudbees-io/register-deployed-artifact@v1
@@ -61,7 +58,7 @@ In your YAML file, add:
             version: "1.0.0"
             url: "docker.io/myapp/mytestimg:1.0.0"
             digest: ""
-            target-environment: ""
+            target-environment: "test_env"
 
 ----
 
