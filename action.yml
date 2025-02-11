@@ -17,6 +17,7 @@ inputs:
     description: 'The artifact digest that uniquely and immutably identifies the artifact.'
   target-environment:
     description: 'If supplied overrides any environment set at the job level.'
+    required: true
 
 runs:
   using: composite
