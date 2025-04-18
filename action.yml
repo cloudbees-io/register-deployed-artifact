@@ -19,7 +19,7 @@ inputs:
     description: 'The environment where the deployment occurred.'
     required: true
   labels:
-    description: 'List of comma separated labels.'
+    description: 'List of comma-separated labels.'
 
 runs:
   using: composite
