@@ -31,8 +31,7 @@ runs:
         #Create payload
         echo '{ "runId": "'"$CLOUDBEES_RUN_ID"'", "runAttempt": "'"$CLOUDBEES_RUN_ATTEMPT"'",' > /tmp/payload.json 
         echo '"name": "'"$INPUT_NAME"'", "url": "'"$INPUT_URL"'", "version": "'"$INPUT_VERSION"'", ' >> /tmp/payload.json
-        echo '"operation": "'"DEPLOYED"'", ' >> /tmp/payload.json
-        echo '"environment": "'"$INPUT_TARGET_ENV"'"' >> /tmp/payload.json
+        echo '"operation": "'"DEPLOYED"'", "environment": "'"$INPUT_TARGET_ENV"'"' >> /tmp/payload.json
 
         # digest argument is optional
         if [ -n "$INPUT_DIGEST" ]; 
