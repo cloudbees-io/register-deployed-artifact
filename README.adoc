@@ -40,6 +40,11 @@ Use this action to report environment artifact related data to the workflow run 
 | Yes
 | The environment where the deployment occurred.  A `target-environment` value overrides the job `environment` value.
 
+| `labels`
+| String
+| No
+| List of comma-separated labels.
+
 |===
 
 == Usage example
@@ -59,6 +64,7 @@ In your YAML file, add:
             url: "docker.io/myapp/mytestimg:1.0.0"
             digest: ""
             target-environment: "test_env"
+            labels: "Enter,     your labels,here!    , Thanks."
 
 ----
 
