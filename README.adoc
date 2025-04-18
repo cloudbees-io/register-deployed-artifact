@@ -43,7 +43,7 @@ Use this action to report environment artifact related data to the workflow run 
 | `labels`
 | String
 | No
-| List of comma separated labels.
+| List of comma-separated labels.
 
 |===
 
