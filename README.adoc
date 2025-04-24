@@ -28,7 +28,7 @@ Use this action to report environment artifact related data to the workflow run 
 | `name`
 | String
 | Yes
-| The name of the artifact to send to the {PRODUCT}for artifact traceability purposes.
+| The name of the artifact to send to the {PRODUCT} for artifact traceability purposes.
 
 | `url`
 | String
