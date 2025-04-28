@@ -41,7 +41,7 @@ runs:
         if [ -n "$INPUT_LABELS" ]; 
         then
          # convert to JSON format
-         formatted_labels=$(echo "$INPUT_LABELS" | sed -e 's/[][]//g' -e "s/'/\"/g" | awk -v RS=, -v ORS=, '{ gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, ""); gsub(/^"+|"+$/, ""); printf "\"%s\",", $0 }' | sed 's/,$//' | sed 's/^/[/; s/$/]/')
+         formatted_labels=$(echo "$INPUT_LABELS" | sed -e 's/[][]//g' | awk -v RS=, -v ORS=, '{ gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, "");  gsub(/\\"/, "\\\\\""); gsub(/"/, "\\\""); printf "\"%s\",", $0 }' | sed 's/,$//' | sed 's/^/[/; s/$/]/')
          echo ', "labels": '"$formatted_labels">> /tmp/payload.json
         fi
         echo ' }' >> /tmp/payload.json
