@@ -1,8 +1,28 @@
 
 = CloudBees action: Register an artifact deployed to an environment
 
-Use this action to report environment artifact related data to the workflow run for artifact traceability purposes.
+Use this action to report artifact-related data to an environment from a CloudBees platform workflow run, for artifact traceability purposes.
 
+== Prerequisites
+
+Before using this action, you must first register the artifact you plan to deploy to an environment.
+This registration saves the artifact information to the platform.
+
+Do one of the following to save your artifact information to the platform:
+
+* Use the link:https://github.com/cloudbees-io/register-build-artifact[Register a build artifact] action in your workflow in a step prior to using this action.
+
+* Add a publishing step to your workflow prior to using this action.
+For example, use one of the following actions:
+** link:https://github.com/cloudbees-io/ecr-promote-image[]
+** link:https://github.com/cloudbees-io/s3-upload-object[]
+** link:https://github.com/cloudbees-io/crane[]
+** link:https://github.com/cloudbees-io/helm-push[]
+** link:https://github.com/cloudbees-io/jfrog-artifactory-promote-image[]
+** link:https://github.com/cloudbees-io/jfrog-artifactory-upload-file[]
+** link:https://github.com/cloudbees-io/kaniko[]
+
+* Manually link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/artifacts#create-artifact-version[create an artifact version] in the UI.
 
 == Inputs
 
@@ -15,6 +35,28 @@ Use this action to report environment artifact related data to the workflow run 
 | Required?
 | Description
 
+| `name`
+| String
+| Yes
+| The name of the artifact to send to the CloudBees platform.
+
+| `target-environment`
+| String
+| Yes
+| The environment where the deployment is located.  
+The `target-environment` value overrides the link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/dsl-syntax/jobs-job-id-environment[] value.
+
+| `url`
+| String
+| Yes
+| The URL of the artifact version, for example, `docker.io/myapp/myimg:1.0.0`.
+
+| `version`
+| String
+| Yes
+| The version of the artifact to send to the CloudBees platform.
+
+
 | `digest`
 | String
 | No
@@ -25,49 +67,137 @@ Use this action to report environment artifact related data to the workflow run 
 | No
 | A comma-separated list of artifact labels.
 
-| `name`
-| String
-| Yes
-| The name of the artifact to send to the {PRODUCT} for artifact traceability purposes.
-
-| `url`
-| String
-| Yes
-| The URL where the artifact version is located.  For example, docker.io/myapp/myimg:1.0.0.
-
-| `target-environment`
-| String
-| Yes
-| The environment where the deployment occurred.  A `target-environment` value overrides the job `environment` value.
-
-| `version`
-| String
-| Yes
-| The version of the artifact to send to the {PRODUCT} for artifact traceability purposes.
-
 
 |===
 
-== Usage example
+== Usage examples
 
-In your YAML file, add:
+=== Basic example
+
+The following is a basic example of using the action:
 
 [source,yaml]
 ----
  jobs:
-    register_artifact_version_to_env:
+    register_artifact_version_to_test_env:
+      environment: test_env
       steps:
-        - name: Register_deployed_artifact
+        - name: Register deployed artifact
           uses: cloudbees-io/register-deployed-artifact@v1
           with:
-            name: "testRegisterArtifact"
-            version: "1.0.0"
-            url: "docker.io/myapp/mytestimg:1.0.0"
-            digest: ""
+            name: "myArtifact"
             target-environment: "test_env"
-            labels: "<add,comma,separated,label,list,here>"
-
+            url: "docker.io/myapp/mytestimg:1.0.0"
+            version: "1.0.0"
 ----
+
+=== Using optional inputs
+
+The following example specifies the artifact digest and labels:
+
+[source,yaml]
+----
+ jobs:
+    register_artifact_version_to_qa_env:
+      environment: test_env
+      steps:
+        - name: Register deployed artifact with labels and digest
+          uses: cloudbees-io/register-deployed-artifact@v1
+          with:
+            name: "myLabeledArtifact"
+            target-environment: "qa_env"
+            url: "docker.io/myapp/mytestimg:1.0.0"
+            version: "1.0.0"
+            digest: "sha256:1234567890abcdefghijklmnop1234567"
+            labels: "label1,label2"
+----
+
+=== Full workflow example with Kaniko
+
+This example uses publishes an image with link:https://github.com/cloudbees-io/kaniko[Kaniko], and then reports the data to the platform.
+
+[source,yaml]
+----
+name: Deployment workflow
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    steps:
+      - uses: docker://alpine/git:latest
+        run: |
+          git config --global --add safe.directory /cloudbees/workspace
+      - uses: cloudbees-io/checkout@v1
+        name: checkout
+      - uses: docker://golang:1.20
+        name: Build Go app
+        kind: build
+        run: |
+          go build -v ./...
+      - uses: cloudbees-io/configure-oci-credentials@v1
+        name: Set up Docker Hub registry
+        kind: deploy
+        with:
+          registry: index.docker.io
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - uses: cloudbees-io/kaniko@v1
+        name: Push image to OCI registry
+        with:
+          destination: index.docker.io/myorg/my-sample-go-app:${{cloudbees.version}}
+  deploy:
+    steps:
+      - uses: cloudbees-io/register-deployed-artifact@v1
+        with:
+          name: art1
+          version: ${{ cloudbees.version }}
+          url: docker.io/myorg/my-sample-go-app:${{cloudbees.version}}
+          target-environment: my-env
+    needs: build
+----
+
+=== Full workflow example with register build action
+
+The following workflow registers the build artifact to the platform with the link:https://github.com/cloudbees-io/register-build-artifact[register a build artifact action].
+Then it deploys the artifact to the Docker `test` target environment and link:https://github.com/cloudbees-io/publish-evidence-item[publishes evidence] to the platform.
+
+.Example platform workflow YAML file
+[.collapsible]
+--
+
+[source, yaml,role="default-expanded"]
+----
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My workflow
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    steps:
+      - uses: cloudbees-io/register-build-artifact@v1
+        with:
+          name: art1
+          version: ${{ cloudbees.version }}
+          url: docker.io/my-app/art1::${{ cloudbees.version }}
+  deploy:
+    steps:
+      - uses: cloudbees-io/register-deployed-artifact@v1
+        with:
+          name: art1
+          version: ${{ cloudbees.version }}
+          url: docker.io/my-app/art1::${{ cloudbees.version }}
+          target-environment: test
+    needs: build
+  publish-evidence:
+    steps:
+      - name: publish evidence
+        with:
+          content: This is evidence
+        uses: cloudbees-io/publish-evidence-item@v1
+    needs: deploy
+----
+--
 
 == License
 
