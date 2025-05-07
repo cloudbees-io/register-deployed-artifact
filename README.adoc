@@ -114,7 +114,7 @@ The following example specifies the artifact digest and labels:
 
 === Full workflow example with Kaniko
 
-This example uses publishes an image with link:https://github.com/cloudbees-io/kaniko[Kaniko], and then reports the data to the platform.
+This example publishes an image with link:https://github.com/cloudbees-io/kaniko[Kaniko], and then reports the data to the platform.
 
 [source,yaml]
 ----
