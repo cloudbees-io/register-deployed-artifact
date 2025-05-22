@@ -17,7 +17,6 @@ inputs:
     description: 'The artifact digest that uniquely and immutably identifies the artifact.'
   target-environment:
     description: 'The environment where the deployment occurred.'
-    required: true
   labels:
     description: 'List of comma-separated labels.'
 
@@ -31,13 +30,20 @@ runs:
         # Create the payload JSON file
         echo '{ "runId": "'"$CLOUDBEES_RUN_ID"'", "runAttempt": "'"$CLOUDBEES_RUN_ATTEMPT"'",' > /tmp/payload.json 
         echo '"name": "'"$INPUT_NAME"'", "url": "'"$INPUT_URL"'", "version": "'"$INPUT_VERSION"'", ' >> /tmp/payload.json
-        echo '"operation": "'"DEPLOYED"'", "environment": "'"$INPUT_TARGET_ENV"'"' >> /tmp/payload.json
+        echo '"operation": "'"DEPLOYED"'" ' >> /tmp/payload.json
+
+        # Add target-environment if provided
+        if [ -n "$INPUT_TARGET_ENV" ]; 
+        then
+          echo ', "environment": "'"$INPUT_TARGET_ENV"'"' >> /tmp/payload.json
+        fi
 
         # Add the digest parameter if provided
         if [ -n "$INPUT_DIGEST" ]; 
         then
           echo ', "digest": "'"$INPUT_DIGEST"'"' >> /tmp/payload.json
         fi
+        
         if [ -n "$INPUT_LABELS" ]; 
         then
          # Convert labels to JSON array format

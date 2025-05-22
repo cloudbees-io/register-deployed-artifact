@@ -33,12 +33,12 @@ Use this action to report environment artifact related data to the workflow run 
 | `url`
 | String
 | Yes
-| The URL where the artifact version is located.  For example, docker.io/myapp/myimg:1.0.0.
+| The URL where the artifact version is located. For example, docker.io/myapp/myimg:1.0.0.
 
 | `target-environment`
 | String
-| Yes
-| The environment where the deployment occurred.  A `target-environment` value overrides the job `environment` value.
+| No
+| The environment where the deployment occurred. A `target-environment` value overrides the job `environment` value.
 
 | `version`
 | String
