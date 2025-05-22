@@ -35,7 +35,7 @@ runs:
         # Add target-environment if provided
         if [ -n "$INPUT_TARGET_ENV" ]; 
         then
-          echo ', "environment": "'"$INPUT_TARGET_ENV"'"'
+          echo ', "environment": "'"$INPUT_TARGET_ENV"'"' >> /tmp/payload.json
         fi
 
         # Add the digest parameter if provided
