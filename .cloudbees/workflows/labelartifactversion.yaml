@@ -11,5 +11,4 @@ jobs:
         with:
           component-id: "065b2595-cd1e-415d-9c5b-cab06074b641"
           artifact-id: "f089759c-9a6c-4c5b-befb-d70ca006625c"
-          labels: ""
-          operation: "REPLACE"
+
