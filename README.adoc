@@ -46,10 +46,12 @@ For example, use one of the following actions:
 | The environment where the deployment is located.  
 The `target-environment` value overrides the link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/dsl-syntax/jobs-job-id-environment[] value.
 
+
 | `url`
 | String
 | Yes
 | The URL of the artifact version, for example, `docker.io/myapp/myimg:1.0.0`.
+
 
 | `version`
 | String
