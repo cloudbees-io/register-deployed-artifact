@@ -3,6 +3,9 @@ kind: workflow
 name: RegisterDeployedArtifact
 
 on:
+  push:
+    branches:
+      - "**"
   workflow_dispatch:
 
 jobs:
