@@ -128,7 +128,7 @@ jobs:
         uses: cloudbees-io/register-deployed-artifact@v2
         name: Register deployed artifact
         with:
-          artifact_id: ${{ fromJSON(steps.kaniko-build.outputs.artifact-ids)['index.docker.io/myorg/my-sample-go-app:cloudbees.version'] }}
+          artifact_id: ${{ fromJSON(steps.kaniko-build.outputs.artifact-ids)[format('index.docker.io/myorg/my-sample-go-app:{0}', cloudbees.version)] }}
           target-environment: my-env
 ----
 
