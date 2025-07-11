@@ -1,20 +1,16 @@
 apiVersion: automation.cloudbees.io/v1alpha1
 kind: workflow
 name: RegisterDeployedArtifact
+
 on:
-  push:
-    branches:
-      - "**"
   workflow_dispatch:
+
 jobs:
   success_valid_env_reg_artifact:
     steps:
       - name: success_valid_env_reg_artifact
-        uses: cloudbees-io/register-deployed-artifact@v1
+        uses: cloudbees-io/register-deployed-artifact@v2
         with:
-          name: "testDeploymentRegister3"
-          version: "3.0.0"
-          url: "docker.io/myapp/mytestimg:3.0.0"
-          digest: "sha256:5e0687d9471728b0a200e0a3840fa16466150c58f628dc6e6c40a9b07e3b3633"
+          artifact-id: "f089759c-9a6c-4c5b-befb-d70ca006625c"
           target-environment: "Test_env"
           labels: "Enter,     your labels,here!    , Thanks."

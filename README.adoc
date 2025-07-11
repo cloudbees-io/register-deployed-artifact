@@ -35,34 +35,16 @@ For example, use one of the following actions:
 | Required?
 | Description
 
-| `name`
+| `artifact_id`
 | String
 | Yes
-| The name of the artifact to send to the CloudBees platform.
+| The unique identifier of an artifact.
 
 | `target-environment`
 | String
-| Yes
+| No
 | The environment where the deployment is located.  
 The `target-environment` value overrides the link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/dsl-syntax/jobs-job-id-environment[`jobs.<job_id>.environment`] value.
-
-
-| `url`
-| String
-| Yes
-| The URL of the artifact version, for example, `+docker.io/myapp/myimg:1.0.0+`.
-
-
-| `version`
-| String
-| Yes
-| The version of the artifact to send to the CloudBees platform.
-
-
-| `digest`
-| String
-| No
-|The artifact digest that uniquely identifies the artifact.
 
 | `labels`
 | String
@@ -87,30 +69,24 @@ The following is a basic example of using the action:
         - name: Register deployed artifact
           uses: cloudbees-io/register-deployed-artifact@v1
           with:
-            name: "myArtifact"
+            artifact_id: "00000000-0000-0000-0000-000000000001"
             target-environment: "test_env"
-            url: "docker.io/myapp/mytestimg:1.0.0"
-            version: "1.0.0"
 ----
 
 === Using optional inputs
 
-The following example specifies the artifact digest and labels:
+The following example specifies labels:
 
 [source,yaml]
 ----
  jobs:
     register_artifact_version_to_qa_env:
-      environment: test_env
+      environment: qa_env
       steps:
         - name: Register deployed artifact with labels and digest
           uses: cloudbees-io/register-deployed-artifact@v1
           with:
-            name: "myLabeledArtifact"
-            target-environment: "qa_env"
-            url: "docker.io/myapp/mytestimg:1.0.0"
-            version: "1.0.0"
-            digest: "sha256:1234567890abcdefghijklmnop1234567"
+            artifact_id: "00000000-0000-0000-0000-000000000001"
             labels: "label1,label2"
 ----
 
@@ -124,7 +100,7 @@ name: Deployment workflow
 on:
   workflow_dispatch:
 jobs:
-  build:
+  test:
     steps:
       - uses: docker://alpine/git:latest
         run: |
@@ -143,19 +119,17 @@ jobs:
           registry: index.docker.io
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
-      - uses: cloudbees-io/kaniko@v1
+      - id: kaniko-build
+        uses: cloudbees-io/kaniko@v1
         name: Push image to OCI registry
         with:
           destination: index.docker.io/myorg/my-sample-go-app:${{cloudbees.version}}
-  deploy:
-    steps:
-      - uses: cloudbees-io/register-deployed-artifact@v1
+      - id: register-deployed-artifact
+        uses: cloudbees-io/register-deployed-artifact@v2
+        name: Register deployed artifact
         with:
-          name: art1
-          version: ${{ cloudbees.version }}
-          url: docker.io/myorg/my-sample-go-app:${{cloudbees.version}}
+          artifact_id: ${{ fromJSON(steps.kaniko-build.outputs.artifact-ids)['index.docker.io/myorg/my-sample-go-app:cloudbees.version'] }}
           target-environment: my-env
-    needs: build
 ----
 
 === Full workflow example with register build action
@@ -175,29 +149,23 @@ name: My workflow
 on:
   workflow_dispatch:
 jobs:
-  build:
+  test:
     steps:
-      - uses: cloudbees-io/register-build-artifact@v1
+      - id: build
+        uses: cloudbees-io/register-build-artifact@v1
         with:
           name: art1
           version: ${{ cloudbees.version }}
           url: docker.io/my-app/art1::${{ cloudbees.version }}
-  deploy:
-    steps:
-      - uses: cloudbees-io/register-deployed-artifact@v1
+      - id: deploy
+        uses: cloudbees-io/register-deployed-artifact@v2
         with:
-          name: art1
-          version: ${{ cloudbees.version }}
-          url: docker.io/my-app/art1::${{ cloudbees.version }}
+          artifact_id: ${{ steps.build.outputs.artifact-id }}
           target-environment: test
-    needs: build
-  publish-evidence:
-    steps:
       - name: publish evidence
         with:
           content: This is evidence
         uses: cloudbees-io/publish-evidence-item@v1
-    needs: deploy
 ----
 --
 
