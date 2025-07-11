@@ -21,7 +21,7 @@ runs:
       run: |
         # Create the payload JSON file
         echo '{ "runId": "'"$CLOUDBEES_RUN_ID"'", "runAttempt": "'"$CLOUDBEES_RUN_ATTEMPT"'",' > /tmp/payload.json 
-        echo '"artifactId": "'"INPUT_ARTIFACT_ID"'" ' >> /tmp/payload.json
+        echo '"artifactId": "'"$INPUT_ARTIFACT_ID"'" ' >> /tmp/payload.json
 
         # Add target-environment if provided
         if [ -n "$INPUT_TARGET_ENV" ]; 
