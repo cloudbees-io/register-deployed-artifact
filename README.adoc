@@ -168,9 +168,9 @@ jobs:
     steps:
       - uses: cloudbees-io/register-deployed-artifact@v2
         with:
-          artifact_id: ${{ steps.build.outputs.artifact-id }}
+          artifact_id: ${{ steps.my-build.outputs.artifact-id }}
           target-environment: test
-    needs: build
+    needs: my-build
   publish-evidence:
     steps:
       - name: publish evidence
