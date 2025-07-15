@@ -27,8 +27,8 @@ runs:
       name: Register Deployed Artifact
       uses: docker://esolang/jq:latest
       run: |
-        echo "WARNING: This action version (v1) is no longer supported and is scheduled to be deprecated." 
-        echo "WARNING: Once deprecated, this version will no longer report artifact deployment data to CloudBees platform. Please update your workflows to use 'cloudbees-io/register-deployed-artifact@v2'."
+        echo "⚠️WARNING: This action version (v1) is no longer supported and is scheduled to be deprecated." 
+        echo "⚠️WARNING: Once deprecated, this version will no longer report artifact deployment data to CloudBees platform. Please update your workflows to use 'cloudbees-io/register-deployed-artifact@v2'."
         # Create the payload JSON file
         echo '{ "runId": "'"$CLOUDBEES_RUN_ID"'", "runAttempt": "'"$CLOUDBEES_RUN_ATTEMPT"'",' > /tmp/payload.json 
         echo '"name": "'"$INPUT_NAME"'", "url": "'"$INPUT_URL"'", "version": "'"$INPUT_VERSION"'", ' >> /tmp/payload.json
