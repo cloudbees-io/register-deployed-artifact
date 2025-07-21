@@ -7,7 +7,7 @@ Use this action to report artifact-related data to an environment from a CloudBe
 ====
 This action version (v2.0) is the most recent release of the action.
 Previous link:https://github.com/cloudbees-io/register-deployed-artifact/releases[releases] are deprecated.
-Version 2.0 link:https://github.com/cloudbees-io/register-deployed-artifact/pull/10#pullrequestreview-3009677046[replaces multiple required inputs] with a single parameter, `artifact_id`.
+Version 2.0 link:https://github.com/cloudbees-io/register-deployed-artifact/pull/10#pullrequestreview-3009677046[replaces multiple required inputs] with a single parameter, `artifact-id`.
 ====
 
 == Prerequisites
@@ -42,7 +42,7 @@ For example, use one of the following actions:
 | Required?
 | Description
 
-| `artifact_id`
+| `artifact-id`
 | String
 | Yes
 | The unique identifier of an artifact.
@@ -75,7 +75,7 @@ The following is a basic example of using the action:
         - name: Register deployed artifact
           uses: cloudbees-io/register-deployed-artifact@v2
           with:
-            artifact_id: 1234abcd-56ef-ab78-9012-cdef78903456
+            artifact-id: 1234abcd-56ef-ab78-9012-cdef78903456
 
 ----
 
@@ -92,7 +92,7 @@ The following example specifies artifact labels:
         - name: Register deployed artifact with labels
           uses: cloudbees-io/register-deployed-artifact@v2
           with:
-            artifact_id: 1234abcd-56ef-ab78-9012-cdef78903456
+            artifact-id: 1234abcd-56ef-ab78-9012-cdef78903456
             labels: label1,label2
 
 ----
@@ -113,7 +113,7 @@ on:
 jobs:
   build:
     outputs:
-      artifact_id: ${{ fromJSON(steps.push-image.outputs.artifact-ids)[ format('index.docker.io/{0}/my-sample-go-app:{1}', vars.DOCKER_USERNAME, cloudbees.version) ] }}
+      artifact-id: ${{ fromJSON(steps.push-image.outputs.artifact-ids)[ format('index.docker.io/{0}/my-sample-go-app:{1}', vars.DOCKER_USERNAME, cloudbees.version) ] }}
     steps:
       - uses: docker://alpine/git:latest
         run: |
@@ -143,7 +143,7 @@ jobs:
       - name: Register deployed artifact
         uses: cloudbees-io/register-deployed-artifact@v2
         with:
-          artifact_id: ${{ needs.build.outputs.artifact_id }}
+          artifact-id: ${{ needs.build.outputs.artifact-id }}
           target-environment: dev
 ----
 
