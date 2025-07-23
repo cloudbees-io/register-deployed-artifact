@@ -4,7 +4,7 @@ name: 'Register deployed artifact'
 description: 'Creates an artifact version association with the environment.'
 
 inputs:
-  artifact_id:
+  artifact-id:
     description: 'The unique identifier of an artifact.'
     required: true
   target-environment:
@@ -62,7 +62,7 @@ runs:
       env:
         JWT: ${{ cloudbees.api.token }}
         URL: ${{ cloudbees.api.url }}
-        INPUT_ARTIFACT_ID: ${{ inputs.artifact_id }}
+        INPUT_ARTIFACT_ID: ${{ inputs.artifact-id }}
         INPUT_TARGET_ENV: ${{ inputs.target-environment }}
         INPUT_LABELS: ${{ inputs.labels }}
         CLOUDBEES_RUN_ID: ${{ cloudbees.run_id }}
