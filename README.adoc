@@ -5,7 +5,7 @@ Use this action to report artifact-related data to an environment from a CloudBe
 
 [IMPORTANT]
 ====
-The action version cloudbees-io/register-deployed-artifact@v1 is deprecated and is no longer supported. Please update your workflows to use link:https://github.com/cloudbees-io/register-deployed-artifact/tree/v2[cloudbees-io/register-deployed-artifact@v2].
+Version v1 for register-deployed-artifact action is no longer supported. Please update your workflows to use link:https://github.com/cloudbees-io/register-deployed-artifact/tree/v2[cloudbees-io/register-deployed-artifact@v2].
 Version v2 replaces multiple required inputs with a single parameter, `artifact_id`.
 ====
 

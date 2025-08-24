@@ -27,7 +27,7 @@ runs:
       name: Register Deployed Artifact
       uses: docker://esolang/jq:latest
       run: |
-        echo "❌️ ERROR: This action version (v1) is deprecated and is no longer supported." 
+        echo "❌️ ERROR: Version 'v1' for 'register-deployed-artifact' action is no longer supported." 
         echo "❌️ ERROR: Please update your workflows to use 'cloudbees-io/register-deployed-artifact@v2'."
         exit 1
       env:
