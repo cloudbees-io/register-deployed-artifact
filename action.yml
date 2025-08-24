@@ -27,55 +27,9 @@ runs:
       name: Register Deployed Artifact
       uses: docker://esolang/jq:latest
       run: |
-        echo "⚠️ WARNING: This action version (v1) is no longer supported and is scheduled to be deprecated." 
-        echo "⚠️ WARNING: Once deprecated, this version will no longer report artifact deployment data to CloudBees platform. Please update your workflows to use 'cloudbees-io/register-deployed-artifact@v2'."
-        # Create the payload JSON file
-        echo '{ "runId": "'"$CLOUDBEES_RUN_ID"'", "runAttempt": "'"$CLOUDBEES_RUN_ATTEMPT"'",' > /tmp/payload.json 
-        echo '"name": "'"$INPUT_NAME"'", "url": "'"$INPUT_URL"'", "version": "'"$INPUT_VERSION"'", ' >> /tmp/payload.json
-        echo '"operation": "'"DEPLOYED"'" ' >> /tmp/payload.json
-
-        # Add target-environment if provided
-        if [ -n "$INPUT_TARGET_ENV" ]; 
-        then
-          echo ', "environment": "'"$INPUT_TARGET_ENV"'"' >> /tmp/payload.json
-        fi
-
-        # Add the digest parameter if provided
-        if [ -n "$INPUT_DIGEST" ]; 
-        then
-          echo ', "digest": "'"$INPUT_DIGEST"'"' >> /tmp/payload.json
-        fi
-        
-        if [ -n "$INPUT_LABELS" ]; 
-        then
-         # Convert labels to JSON array format
-         formatted_labels=$(echo "$INPUT_LABELS" | sed -e 's/[][]//g' | awk -v RS=, -v ORS=, '{ gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, "");  gsub(/\\"/, "\\\\\""); gsub(/"/, "\\\""); printf "\"%s\",", $0 }' | sed 's/,$//' | sed 's/^/[/; s/$/]/')
-         echo ', "labels": '"$formatted_labels">> /tmp/payload.json
-        fi
-        echo ' }' >> /tmp/payload.json
-        
-        # Display the generated payload
-        echo "Request payload:"
-        python3 -m json.tool /tmp/payload.json
-        
-        # Make Platform API call to create artifact_info record
-        response=$(curl --silent --show-error --fail-with-body \
-          -X 'POST' "$URL/v2/workflows/runs/artifactinfos" \
-          -H "Authorization: Bearer $JWT" \
-          -H 'Content-Type: application/json' \
-          --data-binary '@/tmp/payload.json') || command_failed=1
-       
-        # Check if the API call failed
-        if [ ${command_failed:-0} -eq 1 ];
-        then
-          echo "Platform API call failed with error: '$response'"
-          exit 1
-        fi
-        
-        # If successful, show the response nicely
-        echo ""
-        echo "Platform API success response:"
-        echo "$response" | python3 -m json.tool || echo "$response"
+        echo "❌️ ERROR: This action version (v1) is deprecated and is no longer supported." 
+        echo "❌️ ERROR: Please update your workflows to use 'cloudbees-io/register-deployed-artifact@v2'."
+        exit 1
       env:
         JWT: ${{ cloudbees.api.token }}
         URL: ${{ cloudbees.api.url }}
