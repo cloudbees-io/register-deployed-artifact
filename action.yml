@@ -29,7 +29,7 @@ runs:
           folded=$(echo "$pValue" | fold -s -w $FOLD_WIDTH)
           first=1
           echo "$folded" | while IFS= read -r line; do
-          if [ $first -eq 1 ]; then
+          if [ "$first" -eq 1 ]; then
             printf "| \033[1m%-20s\033[0m | %-50s |\n" "$pName" "$line"
             first=0
           else
