@@ -19,6 +19,36 @@ runs:
       name: Register Deployed Artifact
       uses: docker://esolang/jq:latest
       run: |
+        # Set the fold width to match the table column width
+        FOLD_WIDTH=48
+        
+        # Helper function to fold and print a parameter name and value 
+        fold_and_print() {
+          local pName="$1"
+          local pValue="$2"
+          folded=$(echo "$pValue" | fold -s -w $FOLD_WIDTH)
+          first=1
+          echo "$folded" | while IFS= read -r line; do
+          if [ $first -eq 1 ]; then
+            printf "| \033[1m%-20s\033[0m | %-50s |\n" "$pName" "$line"
+            first=0
+          else
+            printf "| \033[1m%-20s\033[0m | %-50s |\n" "" "$line"
+          fi
+        done
+        }
+        
+        # Function to print inputs in a formatted table
+        print_inputs() {
+          echo "+----------------------+----------------------------------------------------+"
+          printf "| \033[1m%-20s\033[0m | \033[1m%-50s\033[0m |\n" "Parameter" "Value"
+          echo "+----------------------+----------------------------------------------------+"
+          printf "| \033[1m%-20s\033[0m | %-50s |\n" "artifact-id" "$INPUT_ARTIFACT_ID"
+          printf "| \033[1m%-20s\033[0m | %-50s |\n" "target-environment" "$INPUT_TARGET_ENV"
+          fold_and_print "labels" "$INPUT_LABELS"
+          echo "+----------------------+----------------------------------------------------+"        
+        }
+        
         # Create the payload JSON file
         echo '{ "runId": "'"$CLOUDBEES_RUN_ID"'", "runAttempt": "'"$CLOUDBEES_RUN_ATTEMPT"'",' > /tmp/payload.json 
         echo '"artifactId": "'"$INPUT_ARTIFACT_ID"'" ' >> /tmp/payload.json
@@ -39,7 +69,7 @@ runs:
         
         # Display the generated payload
         echo "Request payload:"
-        python3 -m json.tool /tmp/payload.json
+        print_inputs
         
         # Make Platform API call to create artifact_info record
         response=$(curl --silent --show-error --fail-with-body \
