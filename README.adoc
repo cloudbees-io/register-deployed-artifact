@@ -1,7 +1,7 @@
 
 = CloudBees action: Register an artifact deployed to an environment
 
-Use this action to report artifact-related data to an environment from a CloudBees platform workflow run, for artifact traceability purposes.
+Use this action to report artifact-related data to an environment from a CloudBees Unify workflow run, for artifact traceability purposes.
 
 [IMPORTANT]
 ====
@@ -13,9 +13,9 @@ Version 2.0 link:https://github.com/cloudbees-io/register-deployed-artifact/pull
 == Prerequisites
 
 Before using this action, you must first register the artifact you plan to deploy to an environment.
-This registration saves the artifact information to the platform.
+This registration saves the artifact information to the CloudBees Unify.
 
-Do one of the following to save your artifact information to the platform:
+Do one of the following to save your artifact information to the CloudBees Unify:
 
 * Use the link:https://github.com/cloudbees-io/register-build-artifact[Register a build artifact] action in your workflow in a step prior to using this action.
 
@@ -99,7 +99,7 @@ The following example specifies artifact labels:
 
 === Full workflow example with Kaniko
 
-This example publishes an image with xref:build-tools:kaniko.adoc[Kaniko], and then reports the data to the platform.
+This example publishes an image with xref:build-tools:kaniko.adoc[Kaniko], and then reports the data to the CloudBees Unify.
 
 [source, yaml,role="default-expanded"]
 ----
@@ -155,4 +155,4 @@ link:https://opensource.org/license/mit/[MIT license].
 == References
 
 * Learn more about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/actions[using actions in CloudBees workflows].
-* Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[the CloudBees platform].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[the CloudBees Unify].

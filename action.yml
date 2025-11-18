@@ -71,8 +71,8 @@ runs:
         echo "Request payload:"
         print_inputs
         
-        # Make Platform API call to create artifact_info record
-        response=$(curl --silent --show-error --fail-with-body \
+        # Make CloudBees Unify API call to create artifact_info record
+        response=$(curl --retry 5 --retry-delay 10 --retry-all-errors --silent --show-error --fail-with-body \
           -X 'POST' "$URL/v3/deployments" \
           -H "Authorization: Bearer $JWT" \
           -H 'Content-Type: application/json' \
@@ -81,14 +81,15 @@ runs:
         # Check if the API call failed
         if [ ${command_failed:-0} -eq 1 ];
         then
-          echo "Platform API call failed with error: '$response'"
+          echo "CloudBees Unify API call failed with error:"
+          echo $response | jq
           exit 1
         fi
         
         # If successful, show the response nicely
         echo ""
-        echo "Platform API success response:"
-        echo "$response" | python3 -m json.tool || echo "$response"
+        echo "CloudBees Unify API success response:"
+        echo "$response" | jq . || echo "$response"
       env:
         JWT: ${{ cloudbees.api.token }}
         URL: ${{ cloudbees.api.url }}
