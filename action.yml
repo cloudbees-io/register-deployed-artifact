@@ -81,15 +81,14 @@ runs:
         # Check if the API call failed
         if [ ${command_failed:-0} -eq 1 ];
         then
-          echo "CloudBees Unify API call failed with error:"
-          echo $response | jq
+          echo "CloudBees Unify API call failed with error: $response"
           exit 1
         fi
         
         # If successful, show the response nicely
         echo ""
         echo "CloudBees Unify API success response:"
-        echo "$response" | jq . || echo "$response"
+        echo "$response" | python3 -m json.tool || echo "$response"
       env:
         JWT: ${{ cloudbees.api.token }}
         URL: ${{ cloudbees.api.url }}
