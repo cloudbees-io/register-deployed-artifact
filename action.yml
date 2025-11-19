@@ -88,7 +88,7 @@ runs:
         # If successful, show the response nicely
         echo ""
         echo "CloudBees Unify API success response:"
-        echo "$response" | python3 -m json.tool || echo "$response"
+        echo "$response" | /usr/bin/jq || echo "$response"
       env:
         JWT: ${{ cloudbees.api.token }}
         URL: ${{ cloudbees.api.url }}
