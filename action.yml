@@ -21,6 +21,9 @@ runs:
       run: |
         # Set the fold width to match the table column width
         FOLD_WIDTH=48
+
+        # Remove EOLs from the input parameter
+        INPUT_ARTIFACT_ID=dt=dt=${INPUT_ARTIFACT_ID//[$'\n\r']/}
         
         # Helper function to fold and print a parameter name and value 
         fold_and_print() {
