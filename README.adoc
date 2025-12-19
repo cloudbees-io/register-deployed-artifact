@@ -57,6 +57,7 @@ The `target-environment` value overrides the link:https://docs.cloudbees.com/doc
 | String
 | No
 | A comma-separated list of artifact labels.
+NOTE: A maximum of 20 labels are allowed per artifact version, with a maximum of 20 characters per label.
 
 |===
 
