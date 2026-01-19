@@ -17,7 +17,7 @@ runs:
   steps:
     - id: registerDeployedArtifact
       name: Register Deployed Artifact
-      uses: docker://esolang/jq:latest
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/cb-utils:main-0.1.9
       run: |
         # Set the fold width to match the table column width
         FOLD_WIDTH=48
@@ -88,7 +88,7 @@ runs:
         # If successful, show the response nicely
         echo ""
         echo "CloudBees Unify API success response:"
-        echo "$response" | /usr/bin/jq || echo "$response"
+        echo "$response" | jq || echo "$response"
       env:
         JWT: ${{ cloudbees.api.token }}
         URL: ${{ cloudbees.api.url }}
